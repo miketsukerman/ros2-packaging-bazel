@@ -1,0 +1,21 @@
+load("@rules_ros//pkg:defs.bzl", "ros_pkg")
+
+cc_binary(
+    name = "package_b",
+    srcs = ["src/package_b.cpp",
+    "include/package_b/package_b.h"],
+    includes = ["include"],
+    deps = ["//packages/package_a:package_a"]
+)
+
+ros_pkg(
+    name = "package_b_pkg",
+    description = "A simple hello world application.",
+    lib_executables = [":package_b"],
+    license = "Apache 2.0",
+    maintainer_email = "miketsukerman@gmail.com",
+    maintainer_name = "Mikhail Tsukerman",
+    pkg_name = "package_b",
+    version = "1.0.0",
+    visibility = ["//visibility:public"],
+)

@@ -1,0 +1,21 @@
+load("@rules_ros//pkg:defs.bzl", "ros_pkg")
+
+cc_library(
+    name = "package_a",
+    srcs = ["src/package_a.cpp"],
+    hdrs = ["include/package_a/package_a.h"],
+    strip_include_prefix = "include",
+    visibility = ["//visibility:public"],
+)
+
+ros_pkg(
+    name = "package_a_pkg",
+    description = "A simple library.",
+    lib_executables = [":package_a"],
+    license = "Apache 2.0",
+    maintainer_email = "miketsukerman@gmail.com",
+    maintainer_name = "Mikhail Tsukerman",
+    pkg_name = "package_a",
+    version = "1.0.0",
+    visibility = ["//visibility:public"],
+)
