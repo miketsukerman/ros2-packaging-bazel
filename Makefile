@@ -1,6 +1,9 @@
-all: build
+all: build package
 
 build:
-	. /opt/ros/iron/setup.sh && colcon build
+	bazel build //packages/package_a:package_a
 
-.PHONY: build
+package: 
+	bazel build //packages/package_a:package_a_rpm
+
+.PHONY: build package
