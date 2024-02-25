@@ -26,5 +26,3 @@ ros_archive(
     name = "rules_ros_examples",
     ros_pkgs = [":rules_ros_examples_pkgs"],
 )
-
-

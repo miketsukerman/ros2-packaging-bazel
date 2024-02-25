@@ -1,5 +1,5 @@
 workspace(name = "my_first_bazel_ros_workspace") # choose your workspace name here
-# load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 
 RULES_ROS_VERSION = "xxx" # TODO: where to find the right version
@@ -37,3 +37,21 @@ setup_03()
 
 load("@rules_ros//thirdparty:setup_04.bzl", "setup_04")
 setup_04()
+
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+http_archive(
+    name = "rules_pkg",
+    urls = [
+        "https://github.com/bazelbuild/rules_pkg/releases/download/0.10.1/rules_pkg-0.10.1.tar.gz",
+    ],
+    sha256 = "d250924a2ecc5176808fc4c25d5cf5e9e79e6346d79d5ab1c493e289e722d1d0",
+)
+load("@rules_pkg//:deps.bzl", "rules_pkg_dependencies")
+rules_pkg_dependencies()
+
+load("@rules_pkg//toolchains/rpm:rpmbuild_configure.bzl", "find_system_rpmbuild")
+
+find_system_rpmbuild(
+    name = "rules_pkg_rpmbuild",
+    verbose = False,
+)
