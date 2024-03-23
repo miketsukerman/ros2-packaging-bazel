@@ -1,0 +1,49 @@
+load("@rules_ros//pkg:defs.bzl", "ros_pkg")
+load("@rules_pkg//pkg:rpm.bzl", "pkg_rpm")
+load("@rules_pkg//pkg:mappings.bzl", "pkg_attributes", "pkg_filegroup", "pkg_files", "pkg_mklink")
+
+cc_binary(
+    name = "subscriber",
+    srcs = [
+        "src/subscriber_main.cpp",
+        "src/MinimalSubscriber.cpp",
+        "include/subscriber/MinimalSubscriber.h",
+    ],
+    includes = ["include"],
+    deps = [
+        "@ros2.common_interfaces//std_msgs",
+        "@ros2.rclcpp//rclcpp",
+    ],
+)
+
+ros_pkg(
+    name = "subscriber_pkg",
+    description = "A simple hello world application.",
+    lib_executables = [":subscriber"],
+    license = "Apache 2.0",
+    maintainer_email = "miketsukerman@gmail.com",
+    maintainer_name = "Mikhail Tsukerman",
+    pkg_name = "subscriber",
+    version = "0.0.1",
+    visibility = ["//visibility:public"],
+)
+
+pkg_files(
+    name = "subscriber_files",
+    srcs = [
+        ":subscriber",
+    ],
+    prefix = "usr/lib/",
+)
+
+pkg_rpm(
+    name = "subscriber_rpm",
+    summary = "sample ros2 subscriber",
+    description = "minimal ros2 subscriber implementation",
+    version = "0.0.1",
+    release = "0",
+    srcs = [
+        ":subscriber_files",
+    ],
+    license = "Apache-2.0"
+)

@@ -3,41 +3,48 @@ load("@rules_pkg//pkg:rpm.bzl", "pkg_rpm")
 load("@rules_pkg//pkg:mappings.bzl", "pkg_attributes", "pkg_filegroup", "pkg_files", "pkg_mklink")
 
 cc_binary(
-    name = "package_b",
-    srcs = ["src/package_b.cpp",
-    "include/package_b/package_b.h"],
+    name = "publisher",
+    srcs = [
+        "src/publisher_main.cpp",
+        "src/MinimalPublisher.cpp",
+        "include/publisher/MinimalPublisher.h",
+    ],
     includes = ["include"],
-    deps = ["//packages/package_a:package_a"]
+    deps = [
+        "//packages/maths:maths",
+        "@ros2.common_interfaces//std_msgs",
+        "@ros2.rclcpp//rclcpp",
+    ],
 )
 
 ros_pkg(
-    name = "package_b_pkg",
+    name = "publisher_pkg",
     description = "A simple hello world application.",
-    lib_executables = [":package_b"],
+    lib_executables = [":publisher"],
     license = "Apache 2.0",
     maintainer_email = "miketsukerman@gmail.com",
     maintainer_name = "Mikhail Tsukerman",
-    pkg_name = "package_b",
-    version = "1.0.0",
+    pkg_name = "publisher",
+    version = "0.0.1",
     visibility = ["//visibility:public"],
 )
 
 pkg_files(
-    name = "package_b_files",
+    name = "publisher_files",
     srcs = [
-        ":package_b",
+        ":publisher",
     ],
     prefix = "usr/lib/",
 )
 
 pkg_rpm(
-    name = "package_b_rpm",
-    summary = "sample package b",
-    description = "sample package b description",
+    name = "publisher_rpm",
+    summary = "ros2 publisher",
+    description = "minimal ros2 publisher implementation",
     version = "0.1",
     release = "0",
     srcs = [
-        ":package_b_files",
+        ":publisher_files",
     ],
     license = "Apache-2.0"
 )
